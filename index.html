@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>WGG</title>
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="style.css" /> -->
+</head>
+
+<body>
+    <!-- Scoreboard -->
+    <p>Scoreboard</p>
+    <p id="winCount"></p>
+    <p id="loseCount"></p>
+    <hr>
+
+    <!-- guess area -->
+    <p>Guess The Word</p>
+    <div id="underscores"></div>
+    <hr>
+
+    <!-- Incorrect guesses -->
+    <p>Guess Area</p>
+    <div id="wrong"></div>
+
+    <script type="text/javascript">
+        var words = ["one","two","three"];
+        var underscores = "";
+        var currentWord = "";
+        var wins = 0;
+        var loss = 0;
+        var guessList = [];
+        var guessCount = 0;
+        const maxGuesses = 6;
+
+        function initializeGame() {
+            currentWord = words[Math.floor(Math.random() * words.length)];
+            underscores = Array(currentWord.length + 1).join("_");
+            guessList = [];
+            guessCount = 0;
+        }
+
+        function updateScreen() {
+            document.getElementById("winCount").textContent = wins;
+            document.getElementById("loseCount").textContent = loss;
+            document.getElementById("underscores").textContent = underscores;
+            document.getElementById("wrong").textContent = guessList.join(" ");
+        }
+
+        function makeGuess(letter) {
+            if (currentWord.includes(letter)) {
+
+                var temp = underscores.split("");
+                for (i = 0; i < currentWord.length; i++) {
+                    if (currentWord[i] === letter) {
+                        temp[i] = letter;
+                    }
+                }
+                underscores = temp.join("");
+                if (underscores === currentWord) {
+                    wins++;
+                    initializeGame();
+                }
+            }
+            if (!currentWord.includes(letter)) {
+                guessCount++;
+                guessList.push(letter);
+                if (guessCount >= maxGuesses) {
+                    loss++;
+                    initializeGame();
+                }
+            }
+        } 
+
+        document.addEventListener("keyup", function(e) {
+            if (e.key.match(/^[a-zA-Z]\b/) && !guessList.join("").includes(e.key)) {
+                makeGuess(e.key);
+                updateScreen();
+            }
+        });
+
+        initializeGame();
+        updateScreen();
+
+    </script>
+</body>
+
+</html>
