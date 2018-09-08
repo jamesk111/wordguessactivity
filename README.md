@@ -3,6 +3,6 @@ Activity to build a word guess game as a group.
 
 # Participants
 ## James Kline
-##Roger Byford
-##Jason Jai
-##Matthew Poche
+## Roger Byford
+## Jason Jai
+## Matthew Poche
